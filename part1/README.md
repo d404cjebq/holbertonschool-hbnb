@@ -3,6 +3,7 @@
 This project contains the UML diagrams developed for the HBnB Evolution project. The diagrams document the architecture, business logic, and API interactions required in the first three tasks.
 
 ---
+<img width="838" height="784" alt="Package Diagram" src="https://github.com/user-attachments/assets/5faad5d5-7bc3-43d8-9060-4c68dda3f63c" />
 
 # Task 0: High-Level Package Diagram
 
@@ -56,6 +57,7 @@ Database
 The Presentation Layer communicates with the Business Logic Layer using the **Facade Pattern**, while the Business Logic Layer performs all database operations through the Persistence Layer.
 
 ---
+<img width="1021" height="739" alt="class Digram" src="https://github.com/user-attachments/assets/4c6ae9e7-1c57-4519-a608-f1de7aafdb7f" />
 
 # Task 1: Detailed Class Diagram for Business Logic Layer
 
@@ -148,6 +150,7 @@ Main Operations:
 The following sequence diagrams describe how the system processes common API requests across the Presentation, Business Logic, and Persistence layers.
 
 ---
+<img width="930" height="593" alt="User Registration" src="https://github.com/user-attachments/assets/86b55d49-3302-47d5-b2b0-3059a6f9995d" />
 
 ## 1. User Registration
 
@@ -170,6 +173,7 @@ POST /users
    - API returns **400 Bad Request**.
 
 ---
+<img width="930" height="593" alt="Fetching a List of Places" src="https://github.com/user-attachments/assets/e1d83c35-8091-4ead-808d-bda45178fdd8" />
 
 ## 2. Fetch Places
 
@@ -188,6 +192,7 @@ GET /places?city=Riyadh
 5. API returns **200 OK** with the list of places.
 
 ---
+<img width="930" height="575" alt="Place Creation" src="https://github.com/user-attachments/assets/342e2db2-78e0-419d-a4b3-86034245cb56" />
 
 ## 3. Create Place
 
@@ -210,6 +215,7 @@ POST /places
    - API returns **400 Bad Request**.
 
 ---
+<img width="930" height="593" alt="Review Submission" src="https://github.com/user-attachments/assets/aa3b1140-4064-42d0-b46d-824d7529a1a0" />
 
 ## 4. Submit Review
 
@@ -241,9 +247,4 @@ The UML diagrams collectively describe:
 - The business entities and their relationships.
 - The interaction flow for major REST API operations.
 
-Together, these diagrams provide a clear view of both the static structure and dynamic behavior of the HBnB Evolution system.<img width="930" height="593" alt="Review Submission" src="https://github.com/user-attachments/assets/df84a0f8-be91-4490-9eca-5be6eec9bfe8" />
-<img width="930" height="575" alt="Place Creation" src="https://github.com/user-attachments/assets/d08ce8de-a877-40ec-a985-c48e59a26975" />
-<img width="930" height="593" alt="Fetching a List of Places" src="https://github.com/user-attachments/assets/9a2707df-538b-4774-b2de-f4eb2d490187" />
-<img width="930" height="593" alt="User Registration" src="https://github.com/user-attachments/assets/0eaa19f3-354d-4df8-afaf-23ae3443540c" />
-<img width="1021" height="739" alt="WhatsApp Image 2026-06-30 at 3 38 16 PM (1)" src="https://github.com/user-attachments/assets/afd09051-2d88-4d53-ab18-3947c479c880" />
-<img width="838" height="784" alt="WhatsApp Image 2026-06-30 at 3 38 16 PM" src="https://github.com/user-attachments/assets/7c09b4e7-37d5-486d-86cf-35269019bd25" />
+Together, these diagrams provide a clear view of both the static structure and dynamic behavior of the HBnB Evolution system.
