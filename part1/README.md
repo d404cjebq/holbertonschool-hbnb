@@ -54,7 +54,6 @@ Database
 ```
 
 The Presentation Layer communicates with the Business Logic Layer using the **Facade Pattern**, while the Business Logic Layer performs all database operations through the Persistence Layer.
-<img width="930" height="593" alt="User Registration" src="https://github.com/user-attachments/assets/9480137a-e354-40d7-a3f8-e68047752781" />
 
 ---
 
@@ -149,11 +148,6 @@ Main Operations:
 The following sequence diagrams describe how the system processes common API requests across the Presentation, Business Logic, and Persistence layers.
 
 ---
-<img width="1021" height="739" alt="WhatsApp Image 2026-06-30 at 3 38 16 PM (1)" src="https://github.com/user-attachments/assets/5e876c24-7f99-409b-83b1-673d9b93ffd0" />
-<img width="838" height="784" alt="WhatsApp Image 2026-06-30 at 3 38 16 PM" src="https://github.com/user-attachments/assets/53690c93-9bbf-4441-a2e3-94459a3d373c" />
-<img width="930" height="593" alt="Review Submission" src="https://github.com/user-attachments/assets/f6c3a277-2562-4712-9bf2-a37cfb052975" />
-<img width="930" height="575" alt="Place Creation" src="https://github.com/user-attachments/assets/4a6a8718-5f6c-4c92-a67b-1f9ca493e1fa" />
-<img width="930" height="593" alt="Fetching a List of Places" src="https://github.com/user-attachments/assets/32cd3baa-4807-47a4-b5b6-804e9aa6cb50" />
 
 ## 1. User Registration
 
@@ -247,4 +241,9 @@ The UML diagrams collectively describe:
 - The business entities and their relationships.
 - The interaction flow for major REST API operations.
 
-Together, these diagrams provide a clear view of both the static structure and dynamic behavior of the HBnB Evolution system.
+Together, these diagrams provide a clear view of both the static structure and dynamic behavior of the HBnB Evolution system.<img width="930" height="593" alt="Review Submission" src="https://github.com/user-attachments/assets/df84a0f8-be91-4490-9eca-5be6eec9bfe8" />
+<img width="930" height="575" alt="Place Creation" src="https://github.com/user-attachments/assets/d08ce8de-a877-40ec-a985-c48e59a26975" />
+<img width="930" height="593" alt="Fetching a List of Places" src="https://github.com/user-attachments/assets/9a2707df-538b-4774-b2de-f4eb2d490187" />
+<img width="930" height="593" alt="User Registration" src="https://github.com/user-attachments/assets/0eaa19f3-354d-4df8-afaf-23ae3443540c" />
+<img width="1021" height="739" alt="WhatsApp Image 2026-06-30 at 3 38 16 PM (1)" src="https://github.com/user-attachments/assets/afd09051-2d88-4d53-ab18-3947c479c880" />
+<img width="838" height="784" alt="WhatsApp Image 2026-06-30 at 3 38 16 PM" src="https://github.com/user-attachments/assets/7c09b4e7-37d5-486d-86cf-35269019bd25" />
