@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 """Place endpoints: /api/v1/places/"""
 from flask_restx import Namespace, Resource, fields
 from app.services import facade
@@ -17,6 +16,13 @@ user_model = api.model('PlaceUser', {
     'email': fields.String(description='Email of the owner')
 })
 
+review_model = api.model('PlaceReview', {
+    'id': fields.String(description='Review ID'),
+    'text': fields.String(description='Text of the review'),
+    'rating': fields.Integer(description='Rating of the place (1-5)'),
+    'user_id': fields.String(description='ID of the user')
+})
+
 place_model = api.model('Place', {
     'title': fields.String(required=True, description='Title of the place'),
     'description': fields.String(description='Description of the place'),
@@ -24,12 +30,14 @@ place_model = api.model('Place', {
     'latitude': fields.Float(required=True, description='Latitude of the place'),
     'longitude': fields.Float(required=True, description='Longitude of the place'),
     'owner_id': fields.String(required=True, description='ID of the owner'),
-    'amenities': fields.List(fields.String, required=True, description="List of amenities ID's")
+    'owner': fields.Nested(user_model, description='Owner of the place'),
+    'amenities': fields.List(fields.String, required=True, description="List of amenities ID's"),
+    'reviews': fields.List(fields.Nested(review_model), description='List of reviews')
 })
 
 
 def serialize_place_full(place):
-    """Full place data including owner and amenities (used for GET by ID)"""
+    """Full place data including owner, amenities, and reviews (used for GET by ID)"""
     owner = facade.get_user(place.owner_id)
     owner_data = None
     if owner:
@@ -47,7 +55,16 @@ def serialize_place_full(place):
         'latitude': place.latitude,
         'longitude': place.longitude,
         'owner': owner_data,
-        'amenities': [{'id': a.id, 'name': a.name} for a in place.amenities]
+        'amenities': [{'id': a.id, 'name': a.name} for a in place.amenities],
+        'reviews': [
+            {
+                'id': r.id,
+                'text': r.comment,
+                'rating': r.rating,
+                'user_id': r.user_id
+            }
+            for r in place.reviews
+        ]
     }
 
 
@@ -126,4 +143,23 @@ class PlaceResource(Resource):
             return {'error': str(e)}, 400
 
         return {'message': 'Place updated successfully'}, 200
-    
+
+
+@api.route('/<place_id>/reviews')
+class PlaceReviewList(Resource):
+    @api.response(200, 'List of reviews for the place retrieved successfully')
+    @api.response(404, 'Place not found')
+    def get(self, place_id):
+        """Get all reviews for a specific place"""
+        reviews = facade.get_reviews_by_place(place_id)
+        if reviews is None:
+            return {'error': 'Place not found'}, 404
+
+        return [
+            {
+                'id': r.id,
+                'text': r.comment,
+                'rating': r.rating
+            }
+            for r in reviews
+        ], 200

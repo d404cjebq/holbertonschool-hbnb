@@ -1,8 +1,8 @@
-#!/usr/bin/python3
-from app.persistence.repository import InMemoryRepository
+﻿from app.persistence.repository import InMemoryRepository
 from app.models.user import User
 from app.models.amenity import Amenity
 from app.models.place import Place
+from app.models.review import Review
 
 
 class HBnBFacade:
@@ -30,10 +30,8 @@ class HBnBFacade:
         user = self.user_repo.get(user_id)
         if not user:
             return None
-
         if 'email' in user_data:
             user.validate_email(user_data['email'])
-
         self.user_repo.update(user_id, user_data)
         return user
 
@@ -59,10 +57,8 @@ class HBnBFacade:
         owner_id = place_data.get('owner_id')
         owner = self.user_repo.get(owner_id)
         if not owner:
-            raise ValueError("Owner not found")
-
+            raise ValueError('Owner not found')
         amenity_ids = place_data.pop('amenities', [])
-
         place = Place(
             title=place_data['title'],
             description=place_data.get('description', ''),
@@ -71,12 +67,10 @@ class HBnBFacade:
             longitude=place_data['longitude'],
             owner_id=owner_id
         )
-
         for amenity_id in amenity_ids:
             amenity = self.amenity_repo.get(amenity_id)
             if amenity:
                 place.add_amenity(amenity)
-
         self.place_repo.add(place)
         return place
 
@@ -90,14 +84,58 @@ class HBnBFacade:
         place = self.place_repo.get(place_id)
         if not place:
             return None
-
         if 'price' in place_data and place_data['price'] < 0:
-            raise ValueError("Price must be positive")
+            raise ValueError('Price must be positive')
         if 'latitude' in place_data and not (-90 <= place_data['latitude'] <= 90):
-            raise ValueError("Latitude must be between -90 and 90")
+            raise ValueError('Latitude must be between -90 and 90')
         if 'longitude' in place_data and not (-180 <= place_data['longitude'] <= 180):
-            raise ValueError("Longitude must be between -180 and 180")
-
+            raise ValueError('Longitude must be between -180 and 180')
         self.place_repo.update(place_id, place_data)
         return place
-    
+
+    def create_review(self, review_data):
+        user_id = review_data.get('user_id')
+        place_id = review_data.get('place_id')
+        user = self.user_repo.get(user_id)
+        if not user:
+            raise ValueError('User not found')
+        place = self.place_repo.get(place_id)
+        if not place:
+            raise ValueError('Place not found')
+        review = Review(
+            rating=review_data['rating'],
+            comment=review_data['text'],
+            user_id=user_id,
+            place_id=place_id
+        )
+        self.review_repo.add(review)
+        place.create_review(review)
+        return review
+
+    def get_review(self, review_id):
+        return self.review_repo.get(review_id)
+
+    def get_all_reviews(self):
+        return self.review_repo.get_all()
+
+    def get_reviews_by_place(self, place_id):
+        place = self.place_repo.get(place_id)
+        if not place:
+            return None
+        return place.list_reviews()
+
+    def update_review(self, review_id, review_data):
+        review = self.review_repo.get(review_id)
+        if not review:
+            return None
+        if 'text' in review_data:
+            review_data['comment'] = review_data.pop('text')
+        review.update(review_data)
+        return review
+
+    def delete_review(self, review_id):
+        review = self.review_repo.get(review_id)
+        if not review:
+            return False
+        self.review_repo.delete(review_id)
+        return True
