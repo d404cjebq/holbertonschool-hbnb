@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 from app.persistence.repository import InMemoryRepository
 from app.models.user import User
 
@@ -28,6 +27,10 @@ class HBnBFacade:
         user = self.user_repo.get(user_id)
         if not user:
             return None
+
+        if 'email' in user_data:
+            user.validate_email(user_data['email'])
+
         self.user_repo.update(user_id, user_data)
         return user
 

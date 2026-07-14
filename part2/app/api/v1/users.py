@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """User endpoints: /api/v1/users/"""
-
 from flask_restx import Namespace, Resource, fields
 from app.services import facade
 
@@ -9,7 +8,9 @@ api = Namespace('users', description='User operations')
 user_model = api.model('User', {
     'first_name': fields.String(required=True, description='First name of the user'),
     'last_name': fields.String(required=True, description='Last name of the user'),
-    'email': fields.String(required=True, description='Email of the user')
+    'email': fields.String(required=True, description='Email of the user'),
+    'birth_date': fields.String(required=False, description='Birth date of the user'),
+    'password': fields.String(required=False, description='Password of the user')
 })
 
 
@@ -20,6 +21,7 @@ def serialize_user(user):
         'first_name': user.first_name,
         'last_name': user.last_name,
         'email': user.email,
+        'birth_date': user.birth_date,
         'is_admin': user.is_admin,
         'is_active': user.is_active
     }
@@ -82,4 +84,3 @@ class UserResource(Resource):
             return {'error': str(e)}, 400
 
         return serialize_user(updated_user), 200
-    
