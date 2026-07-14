@@ -27,27 +27,14 @@ class Place(BaseModel):
         if amenity not in self.amenities:
             self.amenities.append(amenity)
 
-    def remove_amenity(self, amenity):
-        """Remove an amenity from this place"""
-        if amenity in self.amenities:
-            self.amenities.remove(amenity)
-
-    def calculate_average_rating(self):
-        """Calculate the average rating from all reviews"""
-        if not self.reviews:
-            return 0
-        total = sum(review.rating for review in self.reviews)
-        return total / len(self.reviews)
-
-    def update_details(self, data):
-        """Update place details"""
-        self.update(data)
-
-    def add_review(self, review):
-        self.reviews.append(review)
-
-    def list_amenities(self):
+    def list_amenity(self):
+        """List all amenities for this place"""
         return self.amenities
 
     def list_reviews(self):
+        """List all reviews for this place"""
         return self.reviews
+
+    def create_review(self, review):
+        """Attach a newly created review to this place"""
+        self.reviews.append(review)

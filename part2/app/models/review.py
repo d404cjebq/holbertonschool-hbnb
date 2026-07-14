@@ -17,6 +17,6 @@ class Review(BaseModel):
     def validate_rating(self, rating):
         return isinstance(rating, int) and 1 <= rating <= 5
 
-    def edit_review(self, data):
-        """Edit review fields"""
-        self.update(data)
+    def create_review(self):
+        """Register this review (placeholder, actual persistence via facade)"""
+        self.save()

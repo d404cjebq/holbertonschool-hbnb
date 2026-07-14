@@ -35,14 +35,9 @@ class User(BaseModel):
         """Register the user"""
         self.save()
 
-    def update_profile(self, data):
-        """Update profile fields"""
-        self.update(data)
-
-    def deactivate(self):
-        """Deactivate the user account"""
-        self.is_active = False
-        self.save()
+    def login(self):
+        """Placeholder for login session logic"""
+        pass
 
     def authenticate(self, password):
         return self.password_hash == self.hash_password(password)

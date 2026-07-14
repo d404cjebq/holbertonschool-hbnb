@@ -22,3 +22,7 @@ class BaseModel:
     def delete(self):
         """Mark object for deletion (actual removal handled by repository)"""
         pass
+
+    def create(self):
+        """Placeholder for creation logic (handled by repository/facade)"""
+        pass
