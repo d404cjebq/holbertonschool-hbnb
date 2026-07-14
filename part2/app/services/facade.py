@@ -1,6 +1,8 @@
+#!/usr/bin/python3
 from app.persistence.repository import InMemoryRepository
 from app.models.user import User
 from app.models.amenity import Amenity
+from app.models.place import Place
 
 
 class HBnBFacade:
@@ -53,5 +55,49 @@ class HBnBFacade:
         self.amenity_repo.update(amenity_id, amenity_data)
         return amenity
 
+    def create_place(self, place_data):
+        owner_id = place_data.get('owner_id')
+        owner = self.user_repo.get(owner_id)
+        if not owner:
+            raise ValueError("Owner not found")
+
+        amenity_ids = place_data.pop('amenities', [])
+
+        place = Place(
+            title=place_data['title'],
+            description=place_data.get('description', ''),
+            price=place_data['price'],
+            latitude=place_data['latitude'],
+            longitude=place_data['longitude'],
+            owner_id=owner_id
+        )
+
+        for amenity_id in amenity_ids:
+            amenity = self.amenity_repo.get(amenity_id)
+            if amenity:
+                place.add_amenity(amenity)
+
+        self.place_repo.add(place)
+        return place
+
     def get_place(self, place_id):
         return self.place_repo.get(place_id)
+
+    def get_all_places(self):
+        return self.place_repo.get_all()
+
+    def update_place(self, place_id, place_data):
+        place = self.place_repo.get(place_id)
+        if not place:
+            return None
+
+        if 'price' in place_data and place_data['price'] < 0:
+            raise ValueError("Price must be positive")
+        if 'latitude' in place_data and not (-90 <= place_data['latitude'] <= 90):
+            raise ValueError("Latitude must be between -90 and 90")
+        if 'longitude' in place_data and not (-180 <= place_data['longitude'] <= 180):
+            raise ValueError("Longitude must be between -180 and 180")
+
+        self.place_repo.update(place_id, place_data)
+        return place
+    
