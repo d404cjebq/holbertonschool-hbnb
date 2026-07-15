@@ -122,8 +122,6 @@ Manual cURL test cases are documented in `part2/curl_tests.md`, with results sum
 
 ## 👥 Authors
 
-| Name | 
-|---|---|
 | Sarah Alkhubaizy | 
 | Dhay Aldhwayan | 
 | Rahaf Alabdalh | 
