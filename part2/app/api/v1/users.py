@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """User endpoints: /api/v1/users/"""
 from flask_restx import Namespace, Resource, fields
 from app.services import facade
