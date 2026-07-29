@@ -1,15 +1,8 @@
-"""Defines the PlaceAmenity class"""
+from app.models.base_model import BaseModel
 
 
-class PlaceAmenity:
-    """Represents the link between a Place and an Amenity"""
-
+class PlaceAmenity(BaseModel):
     def __init__(self, place_id, amenity_id):
-        """Initialize a new PlaceAmenity instance
-
-        Args:
-            place_id (str): the UUID4 of the associated Place
-            amenity_id (str): the UUID4 of the associated Amenity
-        """
+        super().__init__()
         self.place_id = place_id
         self.amenity_id = amenity_id

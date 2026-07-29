@@ -1,5 +1,6 @@
 """Place endpoints: /api/v1/places/"""
 from flask_restx import Namespace, Resource, fields
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.services import facade
 
 api = Namespace('places', description='Place operations')
@@ -30,23 +31,18 @@ place_model = api.model('Place', {
     'latitude': fields.Float(required=True, description='Latitude of the place'),
     'longitude': fields.Float(required=True, description='Longitude of the place'),
     'owner_id': fields.String(required=True, description='ID of the owner'),
-    'owner': fields.Nested(user_model, description='Owner of the place'),
-    'amenities': fields.List(fields.String, required=True, description="List of amenities ID's"),
-    'reviews': fields.List(fields.Nested(review_model), description='List of reviews')
+    'amenities': fields.List(fields.String, required=True, description="List of amenities ID's")
 })
 
 
 def serialize_place_full(place):
     """Full place data including owner, amenities, and reviews (used for GET by ID)"""
-    owner = facade.get_user(place.owner_id)
-    owner_data = None
-    if owner:
-        owner_data = {
-            'id': owner.id,
-            'first_name': owner.first_name,
-            'last_name': owner.last_name,
-            'email': owner.email
-        }
+    owner_data = {
+        'id': place.owner.id,
+        'first_name': place.owner.first_name,
+        'last_name': place.owner.last_name,
+        'email': place.owner.email
+    }
 
     return {
         'id': place.id,
@@ -59,9 +55,9 @@ def serialize_place_full(place):
         'reviews': [
             {
                 'id': r.id,
-                'text': r.comment,
+                'text': r.text,
                 'rating': r.rating,
-                'user_id': r.user_id
+                'user_id': r.user.id
             }
             for r in place.reviews
         ]
@@ -87,7 +83,7 @@ def serialize_place_created(place):
         'price': place.price,
         'latitude': place.latitude,
         'longitude': place.longitude,
-        'owner_id': place.owner_id
+        'owner_id': place.owner.id
     }
 
 
@@ -158,7 +154,7 @@ class PlaceReviewList(Resource):
         return [
             {
                 'id': r.id,
-                'text': r.comment,
+                'text': r.text,
                 'rating': r.rating
             }
             for r in reviews

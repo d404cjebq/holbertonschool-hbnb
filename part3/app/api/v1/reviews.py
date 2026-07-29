@@ -16,10 +16,10 @@ def serialize_review_full(review):
     """Full review data (used for POST, GET by ID)"""
     return {
         'id': review.id,
-        'text': review.comment,
+        'text': review.text,
         'rating': review.rating,
-        'user_id': review.user_id,
-        'place_id': review.place_id
+        'user_id': review.user.id,
+        'place_id': review.place.id
     }
 
 
@@ -27,7 +27,7 @@ def serialize_review_summary(review):
     """Short review data (used for GET list)"""
     return {
         'id': review.id,
-        'text': review.comment,
+        'text': review.text,
         'rating': review.rating
     }
 

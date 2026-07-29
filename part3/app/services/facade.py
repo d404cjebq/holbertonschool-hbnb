@@ -58,19 +58,23 @@ class HBnBFacade:
         owner = self.user_repo.get(owner_id)
         if not owner:
             raise ValueError('Owner not found')
+
         amenity_ids = place_data.pop('amenities', [])
+
         place = Place(
             title=place_data['title'],
             description=place_data.get('description', ''),
             price=place_data['price'],
             latitude=place_data['latitude'],
             longitude=place_data['longitude'],
-            owner_id=owner_id
+            owner=owner
         )
+
         for amenity_id in amenity_ids:
             amenity = self.amenity_repo.get(amenity_id)
             if amenity:
                 place.add_amenity(amenity)
+
         self.place_repo.add(place)
         return place
 
@@ -84,32 +88,38 @@ class HBnBFacade:
         place = self.place_repo.get(place_id)
         if not place:
             return None
+
         if 'price' in place_data and place_data['price'] < 0:
             raise ValueError('Price must be positive')
         if 'latitude' in place_data and not (-90 <= place_data['latitude'] <= 90):
             raise ValueError('Latitude must be between -90 and 90')
         if 'longitude' in place_data and not (-180 <= place_data['longitude'] <= 180):
             raise ValueError('Longitude must be between -180 and 180')
+
         self.place_repo.update(place_id, place_data)
         return place
 
     def create_review(self, review_data):
         user_id = review_data.get('user_id')
         place_id = review_data.get('place_id')
+
         user = self.user_repo.get(user_id)
         if not user:
             raise ValueError('User not found')
+
         place = self.place_repo.get(place_id)
         if not place:
             raise ValueError('Place not found')
+
         review = Review(
             rating=review_data['rating'],
-            comment=review_data['text'],
-            user_id=user_id,
-            place_id=place_id
+            text=review_data['text'],
+            place=place,
+            user=user
         )
+
         self.review_repo.add(review)
-        place.create_review(review)
+        place.add_review(review)
         return review
 
     def get_review(self, review_id):
@@ -128,8 +138,15 @@ class HBnBFacade:
         review = self.review_repo.get(review_id)
         if not review:
             return None
+
+        if 'rating' in review_data:
+            if not review.validate_rating(review_data['rating']):
+                raise ValueError('Rating must be between 1 and 5')
+
         if 'text' in review_data:
-            review_data['comment'] = review_data.pop('text')
+            if not review_data['text']:
+                raise ValueError('Text is required')
+
         review.update(review_data)
         return review
 
