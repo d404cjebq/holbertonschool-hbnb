@@ -111,6 +111,10 @@ class HBnBFacade:
         self.review_repo.add(review)
         place.create_review(review)
         return review
+ #تاسك ثلاثه داله تحقيق التكرار 
+    def has_user_reviewed_place(self, user_id, place_id):
+     """Check if a user has already reviewed a specific place"""
+     reviews = self.review_repo.get_all()
 
     def get_review(self, review_id):
         return self.review_repo.get(review_id)
