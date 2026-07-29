@@ -89,12 +89,15 @@ def serialize_place_created(place):
 
 @api.route('/')
 class PlaceList(Resource):
+    @jwt_required()
     @api.expect(place_model)
     @api.response(201, 'Place successfully created')
     @api.response(400, 'Invalid input data')
     def post(self):
-        """Register a new place"""
+        """Create a new place (authenticated users only)"""
+        current_user = get_jwt_identity()
         place_data = api.payload
+        place_data['owner_id'] = current_user
 
         try:
             new_place = facade.create_place(place_data)
@@ -105,7 +108,7 @@ class PlaceList(Resource):
 
     @api.response(200, 'List of places retrieved successfully')
     def get(self):
-        """Retrieve a list of all places"""
+        """Retrieve a list of all places (public endpoint)"""
         places = facade.get_all_places()
         return [serialize_place_summary(place) for place in places], 200
 
@@ -115,23 +118,29 @@ class PlaceResource(Resource):
     @api.response(200, 'Place details retrieved successfully')
     @api.response(404, 'Place not found')
     def get(self, place_id):
-        """Get place details by ID"""
+        """Get place details by ID (public endpoint)"""
         place = facade.get_place(place_id)
         if not place:
             return {'error': 'Place not found'}, 404
         return serialize_place_full(place), 200
 
+    @jwt_required()
     @api.expect(place_model)
     @api.response(200, 'Place updated successfully')
+    @api.response(403, 'Unauthorized action')
     @api.response(404, 'Place not found')
     @api.response(400, 'Invalid input data')
     def put(self, place_id):
-        """Update a place's information"""
+        """Update a place's information (owner only)"""
+        current_user = get_jwt_identity()
         place_data = api.payload
 
         place = facade.get_place(place_id)
         if not place:
             return {'error': 'Place not found'}, 404
+
+        if place.owner.id != current_user:
+            return {'error': 'Unauthorized action'}, 403
 
         try:
             facade.update_place(place_id, place_data)
@@ -146,7 +155,7 @@ class PlaceReviewList(Resource):
     @api.response(200, 'List of reviews for the place retrieved successfully')
     @api.response(404, 'Place not found')
     def get(self, place_id):
-        """Get all reviews for a specific place"""
+        """Get all reviews for a specific place (public endpoint)"""
         reviews = facade.get_reviews_by_place(place_id)
         if reviews is None:
             return {'error': 'Place not found'}, 404
