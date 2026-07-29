@@ -1,4 +1,4 @@
-﻿from app.persistence.repository import InMemoryRepository
+from app.persistence.repository import InMemoryRepository
 from app.models.user import User
 from app.models.amenity import Amenity
 from app.models.place import Place
@@ -121,10 +121,11 @@ class HBnBFacade:
         self.review_repo.add(review)
         place.add_review(review)
         return review
- #تاسك ثلاثه داله تحقيق التكرار 
+
     def has_user_reviewed_place(self, user_id, place_id):
-     """Check if a user has already reviewed a specific place"""
-     reviews = self.review_repo.get_all()
+        """Check if a user has already reviewed a specific place"""
+        reviews = self.review_repo.get_all()
+        return any(r.user.id == user_id and r.place.id == place_id for r in reviews)
 
     def get_review(self, review_id):
         return self.review_repo.get(review_id)
