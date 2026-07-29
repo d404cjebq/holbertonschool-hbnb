@@ -1,170 +1,127 @@
-"""Place endpoints: /api/v1/places/"""
+"""Review endpoints: /api/v1/reviews/"""
 from flask_restx import Namespace, Resource, fields
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from app.services import facade
 
-api = Namespace('places', description='Place operations')
+api = Namespace('reviews', description='Review operations')
 
-amenity_model = api.model('PlaceAmenity', {
-    'id': fields.String(description='Amenity ID'),
-    'name': fields.String(description='Name of the amenity')
-})
-
-user_model = api.model('PlaceUser', {
-    'id': fields.String(description='User ID'),
-    'first_name': fields.String(description='First name of the owner'),
-    'last_name': fields.String(description='Last name of the owner'),
-    'email': fields.String(description='Email of the owner')
-})
-
-review_model = api.model('PlaceReview', {
-    'id': fields.String(description='Review ID'),
-    'text': fields.String(description='Text of the review'),
-    'rating': fields.Integer(description='Rating of the place (1-5)'),
-    'user_id': fields.String(description='ID of the user')
-})
-
-place_model = api.model('Place', {
-    'title': fields.String(required=True, description='Title of the place'),
-    'description': fields.String(description='Description of the place'),
-    'price': fields.Float(required=True, description='Price per night'),
-    'latitude': fields.Float(required=True, description='Latitude of the place'),
-    'longitude': fields.Float(required=True, description='Longitude of the place'),
-    'owner_id': fields.String(required=True, description='ID of the owner'),
-    'amenities': fields.List(fields.String, required=True, description="List of amenities ID's")
+review_model = api.model('Review', {
+    'text': fields.String(required=True, description='Text of the review'),
+    'rating': fields.Integer(required=True, description='Rating of the place (1-5)'),
+    'place_id': fields.String(required=True, description='ID of the place')
 })
 
 
-def serialize_place_full(place):
-    """Full place data including owner, amenities, and reviews (used for GET by ID)"""
-    owner_data = {
-        'id': place.owner.id,
-        'first_name': place.owner.first_name,
-        'last_name': place.owner.last_name,
-        'email': place.owner.email
-    }
-
+def serialize_review_full(review):
+    """Full review data (used for POST, GET by ID)"""
     return {
-        'id': place.id,
-        'title': place.title,
-        'description': place.description,
-        'latitude': place.latitude,
-        'longitude': place.longitude,
-        'owner': owner_data,
-        'amenities': [{'id': a.id, 'name': a.name} for a in place.amenities],
-        'reviews': [
-            {
-                'id': r.id,
-                'text': r.text,
-                'rating': r.rating,
-                'user_id': r.user.id
-            }
-            for r in place.reviews
-        ]
+        'id': review.id,
+        'text': review.text,
+        'rating': review.rating,
+        'user_id': review.user.id,
+        'place_id': review.place.id
     }
 
 
-def serialize_place_summary(place):
-    """Short place data (used for GET list)"""
+def serialize_review_summary(review):
+    """Short review data (used for GET list)"""
     return {
-        'id': place.id,
-        'title': place.title,
-        'latitude': place.latitude,
-        'longitude': place.longitude
-    }
-
-
-def serialize_place_created(place):
-    """Place data returned after creation (POST)"""
-    return {
-        'id': place.id,
-        'title': place.title,
-        'description': place.description,
-        'price': place.price,
-        'latitude': place.latitude,
-        'longitude': place.longitude,
-        'owner_id': place.owner.id
+        'id': review.id,
+        'text': review.text,
+        'rating': review.rating
     }
 
 
 @api.route('/')
-class PlaceList(Resource):
+class ReviewList(Resource):
     @jwt_required()
-    @api.expect(place_model)
-    @api.response(201, 'Place successfully created')
+    @api.expect(review_model)
+    @api.response(201, 'Review successfully created')
     @api.response(400, 'Invalid input data')
     def post(self):
-        """Create a new place (authenticated users only)"""
+        """Create a new review (authenticated users only)"""
         current_user = get_jwt_identity()
-        place_data = api.payload
-        place_data['owner_id'] = current_user
+        review_data = api.payload
+
+        place = facade.get_place(review_data['place_id'])
+        if not place:
+            return {'error': 'Place not found'}, 404
+
+        if place.owner.id == current_user:
+            return {'error': 'You cannot review your own place'}, 400
+
+        if facade.has_user_reviewed_place(current_user, review_data['place_id']):
+            return {'error': 'You have already reviewed this place'}, 400
+
+        review_data['user_id'] = current_user
 
         try:
-            new_place = facade.create_place(place_data)
+            new_review = facade.create_review(review_data)
         except ValueError as e:
             return {'error': str(e)}, 400
 
-        return serialize_place_created(new_place), 201
+        return serialize_review_full(new_review), 201
 
-    @api.response(200, 'List of places retrieved successfully')
+    @api.response(200, 'List of reviews retrieved successfully')
     def get(self):
-        """Retrieve a list of all places (public endpoint)"""
-        places = facade.get_all_places()
-        return [serialize_place_summary(place) for place in places], 200
+        """Retrieve a list of all reviews (public endpoint)"""
+        reviews = facade.get_all_reviews()
+        return [serialize_review_summary(review) for review in reviews], 200
 
 
-@api.route('/<place_id>')
-class PlaceResource(Resource):
-    @api.response(200, 'Place details retrieved successfully')
-    @api.response(404, 'Place not found')
-    def get(self, place_id):
-        """Get place details by ID (public endpoint)"""
-        place = facade.get_place(place_id)
-        if not place:
-            return {'error': 'Place not found'}, 404
-        return serialize_place_full(place), 200
+@api.route('/<review_id>')
+class ReviewResource(Resource):
+    @api.response(200, 'Review details retrieved successfully')
+    @api.response(404, 'Review not found')
+    def get(self, review_id):
+        """Get review details by ID (public endpoint)"""
+        review = facade.get_review(review_id)
+        if not review:
+            return {'error': 'Review not found'}, 404
+        return serialize_review_full(review), 200
 
     @jwt_required()
-    @api.expect(place_model)
-    @api.response(200, 'Place updated successfully')
+    @api.expect(review_model)
+    @api.response(200, 'Review updated successfully')
     @api.response(403, 'Unauthorized action')
-    @api.response(404, 'Place not found')
+    @api.response(404, 'Review not found')
     @api.response(400, 'Invalid input data')
-    def put(self, place_id):
-        """Update a place's information (owner only)"""
+    def put(self, review_id):
+        """Update a review (creator or admin)"""
         current_user = get_jwt_identity()
-        place_data = api.payload
+        claims = get_jwt()
+        review_data = api.payload
 
-        place = facade.get_place(place_id)
-        if not place:
-            return {'error': 'Place not found'}, 404
+        review = facade.get_review(review_id)
+        if not review:
+            return {'error': 'Review not found'}, 404
 
-        if place.owner.id != current_user:
+        if not claims.get('is_admin') and review.user.id != current_user:
             return {'error': 'Unauthorized action'}, 403
 
         try:
-            facade.update_place(place_id, place_data)
+            facade.update_review(review_id, review_data)
         except ValueError as e:
             return {'error': str(e)}, 400
 
-        return {'message': 'Place updated successfully'}, 200
+        return {'message': 'Review updated successfully'}, 200
 
+    @jwt_required()
+    @api.response(200, 'Review deleted successfully')
+    @api.response(403, 'Unauthorized action')
+    @api.response(404, 'Review not found')
+    def delete(self, review_id):
+        """Delete a review (creator or admin)"""
+        current_user = get_jwt_identity()
+        claims = get_jwt()
 
-@api.route('/<place_id>/reviews')
-class PlaceReviewList(Resource):
-    @api.response(200, 'List of reviews for the place retrieved successfully')
-    @api.response(404, 'Place not found')
-    def get(self, place_id):
-        """Get all reviews for a specific place (public endpoint)"""
-        reviews = facade.get_reviews_by_place(place_id)
-        if reviews is None:
-            return {'error': 'Place not found'}, 404
+        review = facade.get_review(review_id)
+        if not review:
+            return {'error': 'Review not found'}, 404
 
-        return [
-            {
-                'id': r.id,
-                'text': r.text,
-                'rating': r.rating
-            }
-            for r in reviews
-        ], 200
+        if not claims.get('is_admin') and review.user.id != current_user:
+            return {'error': 'Unauthorized action'}, 403
+
+        facade.delete_review(review_id)
+        return {'message': 'Review deleted successfully'}, 200
+    
