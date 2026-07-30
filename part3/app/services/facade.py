@@ -1,4 +1,4 @@
-from app.persistence.repository import InMemoryRepository
+﻿from app.persistence.repository import InMemoryRepository, SQLAlchemyRepository
 from app.models.user import User
 from app.models.amenity import Amenity
 from app.models.place import Place
@@ -7,7 +7,7 @@ from app.models.review import Review
 
 class HBnBFacade:
     def __init__(self):
-        self.user_repo = InMemoryRepository()
+        self.user_repo = SQLAlchemyRepository(User)
         self.place_repo = InMemoryRepository()
         self.review_repo = InMemoryRepository()
         self.amenity_repo = InMemoryRepository()
@@ -30,8 +30,16 @@ class HBnBFacade:
         user = self.user_repo.get(user_id)
         if not user:
             return None
+
         if 'email' in user_data:
             user.validate_email(user_data['email'])
+
+        if 'password' in user_data:
+            password = user_data.pop('password')
+            if len(password) < 8:
+                raise ValueError('Password must be at least 8 characters long')
+            user.hash_password(password)
+
         self.user_repo.update(user_id, user_data)
         return user
 
@@ -161,3 +169,18 @@ class HBnBFacade:
             return False
         self.review_repo.delete(review_id)
         return True
+
+    def amenity_delete(self, amenity_id):
+        """Helper to delete an amenity directly via repository"""
+        if self.amenity_repo.get(amenity_id):
+            self.amenity_repo.delete(amenity_id)
+            return True
+        return False
+
+    def place_delete(self, place_id):
+        """Helper to delete a place directly via repository"""
+        if self.place_repo.get(place_id):
+            self.place_repo.delete(place_id)
+            return True
+        return False
+    
