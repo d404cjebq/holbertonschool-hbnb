@@ -1,31 +1,36 @@
 import re
+from app import db, bcrypt
 from app.models.base_model import BaseModel
-
+from sqlalchemy.orm import validates
 
 class User(BaseModel):
-    def __init__(self, first_name, last_name, email, birth_date=None,
-                 password="", is_admin=False, is_active=True):
-        super().__init__()
-        if not first_name or len(first_name) > 50:
+    __tablename__ = 'users'
+
+    first_name = db.Column(db.String(50), nullable=False)
+    last_name = db.Column(db.String(50), nullable=False)
+    email = db.Column(db.String(120), nullable=False, unique=True)
+    birth_date = db.Column(db.Date, nullable=True)
+    password = db.Column(db.String(128), nullable=True)
+    is_admin = db.Column(db.Boolean, default=False)
+    is_active = db.Column(db.Boolean, default=True)
+
+    places = db.relationship('Place', backref='owner', lazy=True)
+    reviews = db.relationship('Review', backref='user', lazy=True)
+
+    @validates('first_name')
+    def validate_first_name(self, key, value):
+        if not value or len(value) > 50:
             raise ValueError("First name is required and must be <= 50 characters")
-        if not last_name or len(last_name) > 50:
+        return value
+
+    @validates('last_name')
+    def validate_last_name(self, key, value):
+        if not value or len(value) > 50:
             raise ValueError("Last name is required and must be <= 50 characters")
-        if password and len(password) < 8:
-            raise ValueError("Password must be at least 8 characters long")
+        return value
 
-        self.first_name = first_name
-        self.last_name = last_name
-        self.email = self.validate_email(email)
-        self.birth_date = birth_date
-        self.password = None
-        if password:
-            self.hash_password(password)
-        self.is_admin = is_admin
-        self.is_active = is_active
-        self.places = []
-        self.reviews = []
-
-    def validate_email(self, email):
+    @validates('email')
+    def validate_email(self, key, email):
         pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
         if not re.match(pattern, email):
             raise ValueError("Invalid email format")
@@ -33,12 +38,12 @@ class User(BaseModel):
 
     def hash_password(self, password):
         """Hashes the password before storing it."""
-        from app import bcrypt
+        if len(password) < 8:
+            raise ValueError("Password must be at least 8 characters long")
         self.password = bcrypt.generate_password_hash(password).decode('utf-8')
 
     def verify_password(self, password):
         """Verifies if the provided password matches the hashed password."""
-        from app import bcrypt
         return bcrypt.check_password_hash(self.password, password)
 
     def authenticate(self, password):
