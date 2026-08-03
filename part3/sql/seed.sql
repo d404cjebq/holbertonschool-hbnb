@@ -9,7 +9,7 @@ VALUES (
     'Admin',
     'HBnB',
     'admin@hbnb.io',
-    '$2b$12$PLACEHOLDER_REPLACE_WITH_REAL_HASH',
+    '$2b$12$IXCFqLKdZgpEuqu9zremG.M97zDRAZBhmPlaDh.js4xEupyhU873W',
     1
 );
 
