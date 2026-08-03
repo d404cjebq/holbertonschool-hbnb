@@ -1,15 +1,15 @@
+from app import db
 from app.models.base_model import BaseModel
-
+from sqlalchemy.orm import validates
 
 class Amenity(BaseModel):
-    def __init__(self, name, description=""):
-        super().__init__()
-        if not name or len(name) > 50:
-            raise ValueError("Amenity name is required and must be <= 50 characters")
+    __tablename__ = 'amenities'
 
-        self.name = name
-        self.description = description
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(100), nullable=False, unique=True)
 
-    def create_amenity(self):
-        """Register this amenity (placeholder, actual persistence via facade)"""
-        self.save()
+    @validates('name')
+    def validate_name(self, key, value):
+        if not value or len(value) > 100:
+            raise ValueError("Amenity name is required and must be <= 100 characters")
+        return value

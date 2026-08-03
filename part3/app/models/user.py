@@ -14,9 +14,6 @@ class User(BaseModel):
     is_admin = db.Column(db.Boolean, default=False)
     is_active = db.Column(db.Boolean, default=True)
 
-    places = db.relationship('Place', backref='owner', lazy=True)
-    reviews = db.relationship('Review', backref='user', lazy=True)
-
     @validates('first_name')
     def validate_first_name(self, key, value):
         if not value or len(value) > 50:
@@ -58,9 +55,3 @@ class User(BaseModel):
     def deactivate(self):
         self.is_active = False
         self.save()
-
-    def add_place(self, place):
-        self.places.append(place)
-
-    def add_review(self, review):
-        self.reviews.append(review)
