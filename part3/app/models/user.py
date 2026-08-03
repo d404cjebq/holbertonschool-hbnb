@@ -14,6 +14,9 @@ class User(BaseModel):
     is_admin = db.Column(db.Boolean, default=False)
     is_active = db.Column(db.Boolean, default=True)
 
+    places = db.relationship('Place', backref='user', lazy=True)
+    reviews = db.relationship('Review', backref='user', lazy=True)
+
     @validates('first_name')
     def validate_first_name(self, key, value):
         if not value or len(value) > 50:
@@ -34,13 +37,11 @@ class User(BaseModel):
         return email
 
     def hash_password(self, password):
-        """Hashes the password before storing it."""
         if len(password) < 8:
             raise ValueError("Password must be at least 8 characters long")
         self.password = bcrypt.generate_password_hash(password).decode('utf-8')
 
     def verify_password(self, password):
-        """Verifies if the provided password matches the hashed password."""
         return bcrypt.check_password_hash(self.password, password)
 
     def authenticate(self, password):
