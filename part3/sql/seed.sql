@@ -9,7 +9,11 @@ VALUES (
     'Admin',
     'HBnB',
     'admin@hbnb.io',
+<<<<<<< HEAD
     '$2b$12$fCtzhQvrFMrHBox1fSra2uTGzhT0WFf7n5lyUIbgrhW6D05/0XWp.',
+=======
+    '$2b$12$IXCFqLKdZgpEuqu9zremG.M97zDRAZBhmPlaDh.js4xEupyhU873W',
+>>>>>>> 34ad22ff65d85c35c062c5100f5e83ebe0b0d4fb
     1
 );
 
