@@ -10,7 +10,7 @@ jwt = JWTManager()
 db = SQLAlchemy()
 
 
-def create_app(config_class=config['default']):
+def create_app(config_class="config.DevelopmentConfig"):
     """
     Application Factory function.
     Creates and configures the Flask app using the specified configuration.
