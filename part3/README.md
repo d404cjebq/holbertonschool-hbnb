@@ -9,7 +9,7 @@ Part 3 extends the HBnB backend from Parts 1 and 2 by replacing in-memory storag
 - **Authentication & Authorization** — JWT-based user authentication via Flask-JWT-Extended, with role-based access control enforced through the `is_admin` attribute on protected endpoints.
 - **Database Integration** — Replace in-memory repositories with SQLite for development, using SQLAlchemy as the ORM, with the application structured to support MySQL in production.
 - **CRUD with Persistence** — All CRUD operations for `User`, `Place`, `Review`, and `Amenity` are refactored to read from and write to the database.
-- **Database Design & Visualization** — The schema is modeled and documented as a Mermaid.js ER diagram (see [`ER_DIAGRAM.md`](./ER_DIAGRAM.md)), covering entities and their relationships.
+- **Database Design & Visualization** — The schema is modeled and documented as a Mermaid.js ER diagram , covering entities and their relationships.
 - **Data Consistency & Validation** — Validation and constraints are enforced at the model layer (e.g. required fields, format checks, numeric ranges) via SQLAlchemy `@validates` decorators.
 
 ## Tech Stack
