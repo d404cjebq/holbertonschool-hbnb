@@ -36,7 +36,8 @@ Key relationships:
 - A **Place** receives many **Reviews** and has many **Amenities** (and vice versa) through `place_amenity`.
 
 *Entity-Relationship Diagram (ERD) using Chen Notation:
-<img width="938" height="663" alt="‏لقطة الشاشة ١٤٤٨-٠٢-٢١ في ٢ ٣٠ ٣٤ م" src="https://github.com/user-attachments/assets/42f98a24-658a-42ff-9079-a66c822c53ad" />
+<img width="938" height="663" alt="‏لقطة الشاشة ١٤٤٨-٠٢-٢١ في ٢ ٣٣ ٠٤ م" src="https://github.com/user-attachments/assets/c3fea516-bd64-4935-b537-d86aade2c9c3" />
+
 
 
 ## Authentication & Authorization
