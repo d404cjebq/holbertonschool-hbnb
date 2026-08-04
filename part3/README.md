@@ -35,7 +35,9 @@ Key relationships:
 - A **User** owns many **Places** and writes many **Reviews**.
 - A **Place** receives many **Reviews** and has many **Amenities** (and vice versa) through `place_amenity`.
 
-Full column-level detail and design notes are in [`ER_DIAGRAM.md`](./ER_DIAGRAM.md).
+*Entity-Relationship Diagram (ERD) using Chen Notation:
+<img width="938" height="663" alt="‏لقطة الشاشة ١٤٤٨-٠٢-٢١ في ٢ ٣٠ ٣٤ م" src="https://github.com/user-attachments/assets/42f98a24-658a-42ff-9079-a66c822c53ad" />
+
 
 ## Authentication & Authorization
 
