@@ -87,7 +87,7 @@ Additional endpoint: `GET /api/v1/places/<place_id>/reviews`
 ### Quick Start
 
 ```bash
-git clone https://github.com/SarahAlkhubaizy/holbertonschool-hbnb.git
+https://github.com/d404cjebq/holbertonschool-hbnb.git
 cd holbertonschool-hbnb/part2
 
 python -m venv venv
@@ -151,7 +151,7 @@ The system uses 5 tables: `users`, `places`, `reviews`, `amenities`, and `place_
 ### Quick Start
 
 ```bash
-git clone https://github.com/SarahAlkhubaizy/holbertonschool-hbnb.git
+git clone https://github.com/d404cjebq/holbertonschool-hbnb.git
 cd holbertonschool-hbnb/part3
 python -m venv venv
 venv\Scripts\activate        # Windows
