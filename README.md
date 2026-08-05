@@ -162,14 +162,24 @@ python run.py
 
 Swagger docs available at:
 
+```
+http://127.0.0.1:5000/api/v1/
+```
 ## 🧪 Testing
 
+**Part 2:**
 ```bash
+cd part2
 python -m unittest tests.test_api -v
 ```
 
-Manual cURL test cases are documented in `part2/curl_tests.md`, with results summarized in `part2/TESTING_REPORT.md`.
+**Part 3:**
+```bash
+cd part3
+python -m unittest discover tests -v
+```
 
+Manual cURL test cases for Part 2 are documented in `part2/curl_tests.md`, with results summarized in `part2/TESTING_REPORT.md`. Part 3 SQL scripts are located in `part3/sql/` and can be tested independently as shown above.
 ---
 
 ## 👥 Authors
