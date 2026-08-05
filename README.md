@@ -124,6 +124,12 @@ Extends the API with secure user authentication, role-based access control, and 
 
 ### Authentication Flow
 
+```
+POST /api/v1/users/          → Register a new user (password hashed via bcrypt)
+POST /api/v1/auth/login      → Authenticate and receive a JWT access token
+GET  /api/v1/auth/protected  → Example endpoint requiring a valid token
+```
+
 ### Authorization Rules
 
 | Action | Regular User | Owner | Admin |
