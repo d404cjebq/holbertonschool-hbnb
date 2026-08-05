@@ -18,9 +18,9 @@
 
 | Phase | Focus | Status |
 |---|---|---|
-| **Part 1** | UML design & technical documentation | ✅ Complete |
-| **Part 2** | Business logic & REST API (Flask / flask-restx) | ✅ Complete |
-
+| Part 1 | UML design & technical documentation | ✅ Complete |
+| Part 2 | Business logic & REST API (Flask / flask-restx) | ✅ Complete |
+| Part 3 | Authentication, authorization & SQL persistence | ✅ Complete |
 ---
 
 ## 🏗️ Architecture
@@ -46,18 +46,16 @@ Database
 
 ---
 
-## 📁 Repository Structure
-
-```
+📁 Repository Structure
 holbertonschool-hbnb/
 ├── part1/          # UML diagrams & technical documentation
 │   └── README.md
 ├── part2/          # Flask / flask-restx API implementation
 │   └── README.md
+├── part3/          # Authentication, authorization & SQL persistence
+│   ├── sql/
+│   └── README.md
 └── README.md        # You are here
-```
-
----
 
 ## 📦 Part 1 — Technical Documentation
 
@@ -108,7 +106,55 @@ http://127.0.0.1:5000/api/v1/
 
 ➡️ Full setup, testing, and API details in [`part2/README.md`](part2/README.md)
 
----
+## 🔐 Part 3 — Authentication, Authorization & Database Persistence
+
+Extends the API with secure user authentication, role-based access control, and a transition from in-memory storage to a persistent SQL database.
+
+### Key Features
+
+| Feature | Description |
+|---|---|
+| Password Hashing | User passwords are hashed with `bcrypt` before storage — never stored or returned in plain text |
+| JWT Authentication | Login endpoint issues a JWT access token embedding the user's identity and admin status |
+| Route Protection | Sensitive endpoints require a valid JWT via `@jwt_required()` |
+| Ownership Authorization | Users can only update/delete Places and Reviews they own |
+| Admin Privileges | Admin users bypass ownership restrictions and can manage users, amenities, and any resource |
+| SQLAlchemy Persistence | Data is now stored in a SQLite database (development) via SQLAlchemy ORM, replacing the in-memory repository |
+| Raw SQL Scripts | Database schema, seed data, and CRUD tests are also provided as standalone `.sql` files |
+
+### Authentication Flow
+
+### Authorization Rules
+
+| Action | Regular User | Owner | Admin |
+|---|---|---|---|
+| Create Place / Review | ✅ (authenticated) | — | ✅ |
+| Update/Delete own Place or Review | ❌ | ✅ | ✅ |
+| Update/Delete others' Place or Review | ❌ | ❌ | ✅ |
+| Create/Update Amenities | ❌ | — | ✅ |
+| Create/Update any User (incl. email/password) | ❌ | — | ✅ |
+
+### Database Schema
+
+The system uses 5 tables: `users`, `places`, `reviews`, `amenities`, and `place_amenity` (many-to-many junction table). Raw SQL scripts are available under `part3/sql/`:
+
+- `schema.sql` — creates all tables and foreign key relationships
+- `seed.sql` — inserts an administrator user and initial amenities (WiFi, Swimming Pool, Air Conditioning)
+- `crud_test.sql` — verifies Create, Read, Update, and Delete operations against the schema
+
+### Quick Start
+
+```bash
+git clone https://github.com/SarahAlkhubaizy/holbertonschool-hbnb.git
+cd holbertonschool-hbnb/part3
+python -m venv venv
+venv\Scripts\activate        # Windows
+source venv/bin/activate     # macOS/Linux
+pip install -r requirements.txt
+python run.py
+```
+
+Swagger docs available at:
 
 ## 🧪 Testing
 
