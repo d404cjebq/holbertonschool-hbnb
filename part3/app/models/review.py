@@ -5,11 +5,10 @@ from sqlalchemy.orm import validates
 class Review(BaseModel):
     __tablename__ = 'reviews'
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     text = db.Column(db.String(1000), nullable=False)
     rating = db.Column(db.Integer, nullable=False)
 
-    place_id = db.Column(db.Integer, db.ForeignKey('places.id'), nullable=False)
+    place_id = db.Column(db.String(36), db.ForeignKey('places.id'), nullable=False)
     user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
 
     @validates('text')
