@@ -32,7 +32,7 @@ class User(BaseModel):
     @validates('email')
     def validate_email(self, key, email):
         pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
-        if not re.match(pattern, email):
+        if not email or not re.match(pattern, email):
             raise ValueError("Invalid email format")
         return email
 
