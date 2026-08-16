@@ -1,6 +1,6 @@
 """User endpoints: /api/v1/users/"""
 from flask_restx import Namespace, Resource, fields
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from app.services import facade
 
 api = Namespace('users', description='User operations')
@@ -14,7 +14,9 @@ user_model = api.model('User', {
 
 update_model = api.model('UserUpdate', {
     'first_name': fields.String(description='First name of the user'),
-    'last_name': fields.String(description='Last name of the user')
+    'last_name': fields.String(description='Last name of the user'),
+    'email': fields.String(description='Email of the user'),
+    'password': fields.String(description='Password of the user')
 })
 
 
@@ -39,16 +41,13 @@ class UserList(Resource):
     def post(self):
         """Register a new user (public endpoint)"""
         user_data = api.payload
-
         existing_user = facade.get_user_by_email(user_data['email'])
         if existing_user:
             return {'error': 'Email already registered'}, 400
-
         try:
             new_user = facade.create_user(user_data)
         except ValueError as e:
             return {'error': str(e)}, 400
-
         return {'id': new_user.id, 'message': 'User successfully created'}, 201
 
     @api.response(200, 'List of users retrieved successfully')
@@ -74,18 +73,26 @@ class UserResource(Resource):
     @api.response(200, 'User successfully updated')
     @api.response(403, 'Unauthorized action')
     @api.response(400, 'You cannot modify email or password')
+    @api.response(400, 'Email already registered')
     @api.response(404, 'User not found')
     def put(self, user_id):
-        """Update user information (self only, excluding email/password)"""
+        """Update user information (admin can update anyone; users can update themselves excluding email/password)"""
         current_user = get_jwt_identity()
+        claims = get_jwt()
+        is_admin = claims.get('is_admin', False)
 
-        if user_id != current_user:
+        if not is_admin and user_id != current_user:
             return {'error': 'Unauthorized action'}, 403
 
         user_data = api.payload
 
-        if 'email' in user_data or 'password' in user_data:
+        if not is_admin and ('email' in user_data or 'password' in user_data):
             return {'error': 'You cannot modify email or password'}, 400
+
+        if 'email' in user_data:
+            existing_user = facade.get_user_by_email(user_data['email'])
+            if existing_user and existing_user.id != user_id:
+                return {'error': 'Email already registered'}, 400
 
         user = facade.get_user(user_id)
         if not user:
@@ -97,4 +104,3 @@ class UserResource(Resource):
             return {'error': str(e)}, 400
 
         return serialize_user(updated_user), 200
-    
