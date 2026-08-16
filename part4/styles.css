@@ -1,56 +1,260 @@
-
+/* 
+  This is a SAMPLE File to get you started. Follow the instructions on the project to complete the tasks. 
+  You'll probably need to override some of theese styles.
+*/
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
 }
-
 body {
-    background-color: #F8F5F0;
+    background-color: #f4f4f4;
     color: #333;
 }
-
 header {
-    background-color: #7FA9C4;
-    box-shadow: 0 0 10px ;
+    background-color: #333;
     color: #fff;
     padding: 1rem;
-    position: sticky;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 10;
-    height: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
-.nav-links {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: right;
-  top: 10%; 
+.logo {
+    height: 45px;
 }
-
- .nav-links a:hover:not(.active) {
-  background-color: #C7C0B8;
-}
-
 nav a {
     color: #fff;
     text-decoration: none;
     margin-left: 1rem;
 }
-
+.login-button {
+    background-color: #ff5a5f;
+    color: #fff;
+    padding: 0.5rem 1.2rem;
+    border-radius: 6px;
+    font-weight: bold;
+}
+.login-button:hover {
+    background-color: #e2464b;
+}
 main {
     padding: 2rem;
-    
 }
-.hero-bg {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: -1;
+
+main > h1 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+main > section > h2,
+.place-info h2 {
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+    color: #333;
+    border-bottom: 2px solid #ff5a5f;
+    padding-bottom: 4px;
+    display: inline-block;
+}
+
+.place-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.review-card h3.review-user {
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+/* Fixed parameters required by the task:
+   margin: 20px | padding: 10px | border: 1px solid #ddd | border-radius: 10px */
+.place-card,
+.review-card {
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+#places-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.place-card {
+    width: 260px;
+    display: flex;
+    flex-direction: column;
+}
+
+.place-price {
+    color: #ff5a5f;
+    font-weight: bold;
+    margin: 5px 0 10px;
+}
+
+.details-button {
+    margin-top: auto;
+    align-self: flex-start;
+    background-color: #ff5a5f;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.details-button:hover {
+    background-color: #e2464b;
+}
+
+.place-details {
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+.place-details img {
+    width: 100%;
+    max-height: 380px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.place-info .host {
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.amenities-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    list-style: none;
+    margin-top: 10px;
+}
+
+.amenities-list li {
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.amenity-icon {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+}
+
+.review-user {
+    font-weight: bold;
+}
+
+.review-rating {
+    color: #ff5a5f;
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+.add-review-link {
+    display: inline-block;
+    margin: 20px;
+    padding: 10px 20px;
+    background-color: #ff5a5f;
+    color: #fff;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.add-review-link:hover {
+    background-color: #e2464b;
+}
+
+.form,
+#login-form,
+#review-form {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.form label,
+#login-form label,
+#review-form label {
+    font-weight: bold;
+}
+
+.form input,
+.form textarea,
+.form select,
+#login-form input,
+#review-form input,
+#review-form textarea,
+#review-form select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+.form textarea,
+#review-form textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.form button,
+#login-form button,
+#review-form button {
+    background-color: #ff5a5f;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.form button:hover,
+#login-form button:hover,
+#review-form button:hover {
+    background-color: #e2464b;
+}
+
+#filter {
+    margin: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#filter select {
+    padding: 6px 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+footer {
+    text-align: center;
+    padding: 1.5rem;
+    background-color: #333;
+    color: #fff;
+    margin-top: 2rem;
 }
