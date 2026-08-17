@@ -1,4 +1,4 @@
-from app.services.repositories.user_repository import UserRepository
+﻿from app.services.repositories.user_repository import UserRepository
 from app.services.repositories.place_repository import PlaceRepository
 from app.services.repositories.review_repository import ReviewRepository
 from app.services.repositories.amenity_repository import AmenityRepository
@@ -43,8 +43,15 @@ class HBnBFacade:
 
     # ---------- Place ----------
     def create_place(self, place_data):
+        amenities_ids = place_data.pop('amenities', [])
         place = Place(**place_data)
         self.place_repo.add(place)
+
+        for amenity_id in amenities_ids:
+            amenity = self.amenity_repo.get(amenity_id)
+            if amenity:
+                place.amenities.append(amenity)
+
         return place
 
     def get_place(self, place_id):
