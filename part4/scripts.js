@@ -29,7 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
             filterPlacesByPrice(selectedPrice);
         });
     }
-<<<<<<< HEAD
 
     const reviewForm = document.getElementById('review-form');
     if (reviewForm) {
@@ -38,6 +37,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const token = getCookie('token');
             await submitReview(token, placeId);
         });
+    }
+      if (document.getElementById('review-form')) {
+        setupAddReviewPage();
     }
 });
 
@@ -56,31 +58,6 @@ function checkAuthentication() {
     } else {
         addReviewSection.style.display = 'block';
         fetchPlaceDetails(token, placeId);
-=======
- if (document.getElementById('review-form')) {
-        setupAddReviewPage();
-    }
-    });
-    
-async function loginUser(email, password) {
-    try {
-        const response = await fetch('http://127.0.0.1:5000/api/v1/auth/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email, password })
-        });
-        if (response.ok) {
-            const data = await response.json();
-            document.cookie = `token=${data.access_token}; path=/`;
-            window.location.href = 'index.html';
-        } else {
-            alert('Login failed: ' + response.statusText);
-        }
-    } catch (error) {
-        alert('An error occurred: ' + error.message);
->>>>>>> c804a8e (Add Review)
     }
 }
 
@@ -304,7 +281,6 @@ function filterPlacesByPrice(maxPrice) {
         }
     });
 }
-<<<<<<< HEAD
 
 async function loginUser(email, password) {
     try {
@@ -327,10 +303,6 @@ async function loginUser(email, password) {
         alert('An error occurred: ' + error.message);
     }
 }
-=======
-/* ======================================================================
-   Add Review page (add_review.html)
-   ====================================================================== */
 function requireAuthentication() {
     const token = getCookie('token');
     if (!token) {
@@ -398,7 +370,6 @@ async function handleResponse(response, form) {
         alert(message);
     }
 }
-
 function setupAddReviewPage() {
     const token = requireAuthentication();
     if (!token) return; // already redirected
@@ -425,4 +396,3 @@ function setupAddReviewPage() {
         });
     }
 }
->>>>>>> c804a8e (Add Review)
