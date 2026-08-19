@@ -34,12 +34,18 @@ def serialize_user(user):
 
 @api.route('/')
 class UserList(Resource):
+    @jwt_required()
     @api.expect(user_model, validate=True)
     @api.response(201, 'User successfully created')
     @api.response(400, 'Email already registered')
     @api.response(400, 'Invalid input data')
+    @api.response(403, 'Admin privileges required')
     def post(self):
-        """Register a new user (public endpoint)"""
+        """Register a new user (admin only)"""
+        claims = get_jwt()
+        if not claims.get('is_admin', False):
+            return {'error': 'Admin privileges required'}, 403
+
         user_data = api.payload
         existing_user = facade.get_user_by_email(user_data['email'])
         if existing_user:
