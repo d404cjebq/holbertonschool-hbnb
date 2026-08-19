@@ -18,6 +18,7 @@ class Place(BaseModel):
     longitude = db.Column(db.Float, nullable=False)
 
     user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
+    image_url = db.Column(db.String(255), nullable=True)
 
     reviews = db.relationship('Review', backref='place', lazy=True)
 

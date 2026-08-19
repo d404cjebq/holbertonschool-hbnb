@@ -11,7 +11,8 @@ place_model = api.model('Place', {
     'price': fields.Float(required=True, description='Price per night'),
     'latitude': fields.Float(required=True, description='Latitude of the place'),
     'longitude': fields.Float(required=True, description='Longitude of the place'),
-    'amenities': fields.List(fields.String, description="List of amenity IDs")
+    'amenities': fields.List(fields.String, description="List of amenity IDs"),
+    'image_url': fields.String(description='URL of the place image')
 })
 
 
@@ -32,6 +33,7 @@ def serialize_place_full(place):
         'price': place.price,
         'latitude': place.latitude,
         'longitude': place.longitude,
+        'image_url': place.image_url,
         'owner': owner_data,
         'amenities': [{'id': a.id, 'name': a.name} for a in place.amenities],
         'reviews': [
@@ -51,7 +53,8 @@ def serialize_place_summary(place):
         'title': place.title,
         'price': place.price,
         'latitude': place.latitude,
-        'longitude': place.longitude
+        'longitude': place.longitude,
+        'image_url': place.image_url
     }
 
 
