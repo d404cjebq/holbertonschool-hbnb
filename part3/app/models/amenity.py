@@ -5,8 +5,8 @@ from sqlalchemy.orm import validates
 class Amenity(BaseModel):
     __tablename__ = 'amenities'
 
- 
     name = db.Column(db.String(100), nullable=False, unique=True)
+    description = db.Column(db.String(255), nullable=True)
 
     @validates('name')
     def validate_name(self, key, value):
