@@ -95,6 +95,7 @@ async function fetchPlaces(token) {
     } catch (error) {
         console.error('Error fetching places:', error);
     }
+    
 }
 
 function displayPlaces(places) {
@@ -109,15 +110,18 @@ function displayPlaces(places) {
         const placeCard = document.createElement('article');
         placeCard.className = 'place-card';
         placeCard.dataset.price = place.price;
-
-        placeCard.innerHTML = `
-            <h3>${place.title}</h3>
-            <p class="place-price">$${place.price} / night</p>
-            <a href="place.html?id=${place.id}" class="details-button">View Details</a>
-        `;
+placeCard.dataset.title = place.title; 
+      placeCard.innerHTML = `
+              <img src="${place.image_url || (PLACE_IMAGES[place.title] && PLACE_IMAGES[place.title][0]) || 'images/placeholder.jpg'}" alt="${place.title}" class="place-image">
+    <h3>${place.title}</h3>
+    <p class="place-price">$${place.price} / night</p>
+    <a href="place.html?id=${place.id}" class="details-button">View Details</a>
+`;
 
         placesList.appendChild(placeCard);
     });
+        const region = getRegionFromURL();
+    if (region) filterPlacesByRegion(region);
 }
 
 function filterPlacesByPrice(maxPrice) {
@@ -192,9 +196,17 @@ function displayPlaceDetails(place, reviews) {
 
     // Guarded: don't crash the whole render if amenities is missing/undefined.
     const amenitiesHTML = (place.amenities || []).map((a) => `<li>${a.name}</li>`).join('');
-
+    const gallery = PLACE_IMAGES[place.title] || [place.image_url || 'images/placeholder.jpg'];
+    const galleryHTML = `
+        <img src="${gallery[0]}" alt="${place.title}" class="main-image">
+        ${gallery.length > 1 ? `
+        <div class="thumbnail-row">
+            ${gallery.map((img, i) => `<img src="${img}" alt="${place.title} ${i + 1}" class="thumbnail-image">`).join('')}
+        </div>` : ''}
+    `;
     placeDetails.innerHTML = `
-        <div class="place-info">
+          ${galleryHTML}
+    <div class="place-info">
             <h1>${place.title}</h1>
             <p class="host">Hosted by ${ownerName}</p>
             <p class="place-price">$${place.price} / night</p>
@@ -204,7 +216,12 @@ function displayPlaceDetails(place, reviews) {
             <ul class="amenities-list">${amenitiesHTML || '<li>No amenities listed.</li>'}</ul>
         </div>
     `;
-
+   const mainImg = placeDetails.querySelector('.main-image');
+    placeDetails.querySelectorAll('.thumbnail-image').forEach((thumb) => {
+        thumb.addEventListener('click', () => {
+            mainImg.src = thumb.src;
+        });
+    });
     const reviewsSection = document.getElementById('reviews');
     if (!reviewsSection) return;
 
@@ -230,6 +247,7 @@ function displayPlaceDetails(place, reviews) {
         noReviews.textContent = 'No reviews yet.';
         reviewsSection.appendChild(noReviews);
     }
+    
 }
 
 // ---------------- Add review ----------------
@@ -333,4 +351,33 @@ function setupAddReviewPage() {
             }
         });
     }
+}
+// ===== تحديث: فلترة حسب الوجهة بالاعتماد على اسم المكان =====
+const PLACE_IMAGES = {
+    'Shebara': ['images/shein.png','images/shein1.png','images/shein2.png','images/sheout.png','images/sheout1.png','images/sheout2.png'],
+    'Dar Tantora': ['images/dtin.png','images/dtin1.png','images/dtin2.png','images/dtout.png','images/dtout1.png','images/dtout2.png'],
+    'Four Seasons': ['images/Fourin.png','images/Fourin1.png','images/Fourin2.png','images/Fourout.png','images/Fourout1.png','images/Fourout2.png'],
+    'Banyan Tree': ['images/btin.png','images/btin1.png','images/btin2.png','images/btout.png','images/btout1.png','images/btout2.png'],
+    'InterContinental': ['images/interin.png','images/interin1.png','images/interin2.png','images/interout.png','images/interout1.png','images/interout2.png'],
+    'Our Habitas': ['images/ohin.png','images/ohin1.png','images/ohin2.png','images/ohout.png','images/ohout1.png','images/ohout2.png'],
+};
+const REGION_PLACES = {
+    redsea: ['Shebara', 'InterContinental', 'Four Seasons'],
+    alula: ['Banyan Tree', 'Our Habitas', 'Dar Tantora']
+};
+
+function getRegionFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('region');
+}
+
+function filterPlacesByRegion(region) {
+    const placeCards = document.querySelectorAll('.place-card');
+    const allowedTitles = REGION_PLACES[region];
+
+    placeCards.forEach((card) => {
+        const title = card.dataset.title;
+        const matches = !allowedTitles || allowedTitles.includes(title);
+        card.style.display = matches ? 'block' : 'none';
+    });
 }
