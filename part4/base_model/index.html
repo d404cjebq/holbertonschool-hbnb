@@ -1,70 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>List of Places</title>
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>List of Places</title>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <header>
-    <a href="index.html">
-        <img src="images/logo.png" alt="HBnB Logo" class="logo">
-    </a>
-    <button id="menu-toggle" class="menu-toggle" aria-label="Toggle menu">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
-    <nav id="main-nav">
-        <a href="index.html">Home</a>
-        <a href="login.html" id="login-link" class="login-button">Login</a>
-        <a href="about.html">About</a>
-    </nav>
+<a href="index.html">
+<img src="images/logo.png" alt="HBnB Logo" class="logo">
+</a>
+<button id="menu-toggle" class="menu-toggle" aria-label="Toggle menu">
+<span></span>
+<span></span>
+<span></span>
+</button>
+<nav id="main-nav">
+<a href="index.html">Home</a>
+<a href="login.html" id="login-link" class="login-button">Login</a>
+<a href="about.html">About</a>
+</nav>
 </header>
 
-    <!-- ===== إضافة جديدة: قسم Hero (فيديو خلفية + WEJHA) ===== -->
-    <section class="hero">
-        <video class="hero-video" autoplay muted loop playsinline>
-            <source src="vid/movie.mp4" type="video/mp4">
-        </video>
-        <div class="hero-overlay">
-            <h1 class="hero-title">𝒲𝑒𝒿𝒽𝒶</h1>
-        </div>
-    </section>
+<!-- ===== إضافة جديدة: قسم Hero (فيديو خلفية + WEJHA) ===== -->
+<section class="hero">
+<video class="hero-video" autoplay muted loop playsinline>
+<source src="vid/movie.mp4" type="video/mp4">
+</video>
+<div class="hero-overlay">
+<h1 class="hero-title">𝒲𝑒𝒿𝒽𝒶</h1>
+</div>
+</section>
 
-    <!-- ===== إضافة جديدة: قسم الوجهتين (Red Sea / AlUla) ===== -->
-    <section id="destinations">
-       <a href="index.html?region=redsea" class="destination-card">
-            <img src="images/Red Sea.jpg" alt="Red Sea">
-            <span class="destination-label">Red Sea</span>
-        </a>
-        <a href="index.html?region=alula" class="destination-card">
-            <img src="images/AlUla.jpg" alt="AlUla">
-            <span class="destination-label">AlUla</span>
-        </a>
-    </section>
-    <!-- ===== نهاية الإضافة ===== -->
+<!-- ===== إضافة جديدة: قسم الوجهتين (Red Sea / AlUla) ===== -->
+<section id="destinations">
+<h2 style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">Destinations</h2>
+<a href="index.html?region=redsea" class="destination-card" data-region="redsea">
+<img src="images/Red%20Sea.jpg" alt="Red Sea">
+<span class="destination-label">Red Sea</span>
+</a>
+<a href="index.html?region=alula" class="destination-card" data-region="alula">
+<img src="images/AlUla.jpg" alt="AlUla">
+<span class="destination-label">AlUla</span>
+</a>
+</section>
+<!-- ===== نهاية الإضافة ===== -->
 
-    <main class="ListPlase">
-        <h1>List of Places</h1>
-        <section id="filter">
-            <h2>Filter</h2>
-            <label for="price-filter">Max Price:</label>
-            <select id="price-filter">
-                <option value="all">All</option>
-                <option value="10">$10</option>
-                <option value="50">$50</option>
-                <option value="100">$100</option>
-            </select>
-        </section>
-        <section id="places-list">
-           <!--<h2>Places</h2>--> 
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2026 HBnB. All rights reserved.</p>
-    </footer>
-    <script src="scripts.js"></script>
+<main class="ListPlase">
+<h1>List of Places</h1>
+<section id="filter">
+<h2>Filter</h2>
+<label for="price-filter">Max Price:</label>
+<select id="price-filter">
+<option value="all">All</option>
+<option value="300">$300</option>
+<option value="400">$400</option>
+<option value="500">$500</option>
+</select>
+</section>
+<section id="places-list">
+<h2 style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">Places</h2>
+</section>
+</main>
+<footer>
+<p>&copy; 2026 HBnB. All rights reserved.</p>
+</footer>
+<script src="scripts.js"></script>
 </body>
 </html>

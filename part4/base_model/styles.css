@@ -175,14 +175,14 @@ footer {
     letter-spacing: 0.05rem;
     text-align: center;
 }
-/* ===== إضافة جديدة: تنسيق صفحات تسجيل الدخول والتسجيل ===== */
+/* ===== التعديل الجديد: تنسيق صفحات تسجيل الدخول والتسجيل ===== */
 main.auth-page {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     min-height: 75vh;
-    gap: 20px;
+    padding: 40px 20px;
 }
 
 main.auth-page > h1 {
@@ -192,47 +192,94 @@ main.auth-page > h1 {
 #login-form,
 #register-form {
     width: 100%;
-    max-width: 380px;
-    background-color: #efe4d3;
-    border: none;
-    border-radius: 12px;
+    max-width: 400px;
+    background-color: #EDE2D4;
+    border: 1px solid #C7C0B8;
+    border-radius: 16px;
     padding: 40px 32px;
-    gap: 20px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-}
-
-#login-form,
-#register-form {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 16px;
+    box-shadow: 0 10px 25px rgba(91, 102, 114, 0.08);
+}
+
+#login-form h2,
+#register-form h2 {
+    color: #5B6672;
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 8px;
 }
 
 #login-form label,
 #register-form label {
     display: block;
+    color: #5B6672;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: -6px;
 }
 
 #login-form input,
 #register-form input {
-    display: block;
     width: 100%;
+    padding: 12px 14px;
+    background-color: #ffffff;
+    border: 1.5px solid #C7C0B8;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    color: #5B6672;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#login-form input:focus,
+#register-form input:focus {
+    border-color: #5B6672;
+    box-shadow: 0 0 0 3px rgba(185, 218, 245, 0.6);
 }
 
 #login-form button,
 #register-form button {
     width: 100%;
+    padding: 12px;
     margin-top: 10px;
+    background-color: #B9DAF5;
+    color: #5B6672;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
 }
 
 #login-form button:hover,
 #register-form button:hover {
-    background-color: #8fb8db;
+    background-color: #9ec9f0;
+    transform: translateY(-1px);
+}
+
+#login-form button:active,
+#register-form button:active {
+    transform: translateY(0);
 }
 
 .new-account-link {
     text-align: center;
-    margin: 0;
+    margin-top: 20px;
+    color: #5B6672;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    border-bottom: 1.5px solid transparent;
+    transition: border-color 0.2s ease;
+}
+
+.new-account-link:hover {
+    border-bottom-color: #5B6672;
 }
 /* ===== إضافة جديدة: تحسين شكل كروت الأماكن ===== */
 .place-card {
@@ -432,4 +479,116 @@ main.auth-page > h1 {
 
 .thumbnail-image:hover {
     opacity: 1;
+}
+/* ===== Add Review Page Styles ===== */
+
+/* العنوان الرئيسي للمكان */
+#place-name {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #5B6672;
+  text-align: center;
+  margin: 2.5rem 1rem 1.5rem;
+}
+
+#place-name-value {
+  color: #5B6672;
+  border-bottom: 2px solid #B9DAF5;
+  padding-bottom: 2px;
+}
+
+/* بطاقة النموذج */
+#review-form {
+  max-width: 500px;
+  width: 90%;
+  margin: 0 auto 3rem;
+  background-color: #EDE2D4;
+  border: 1px solid #C7C0B8;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 15px rgba(91, 102, 114, 0.08);
+  display: flex;
+  flex-direction: column;
+}
+
+#review-form h2 {
+  font-size: 1.3rem;
+  color: #5B6672;
+  margin-bottom: 1.2rem;
+  text-align: center;
+}
+
+/* العناصر والتسميات */
+#review-form label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #5B6672;
+  margin-top: 1rem;
+  margin-bottom: 0.4rem;
+}
+
+#review-form label:first-of-type {
+  margin-top: 0;
+}
+
+#review-form textarea,
+#review-form select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1.5px solid #C7C0B8;
+  border-radius: 8px;
+  background-color: #FFFFFF;
+  color: #5B6672;
+  font-size: 0.95rem;
+  font-family: inherit;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#review-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+#review-form textarea:focus,
+#review-form select:focus {
+  border-color: #5B6672;
+  box-shadow: 0 0 0 3px rgba(185, 218, 245, 0.6);
+}
+
+/* زر الإرسال */
+#review-form button[type="submit"] {
+  width: 100%;
+  margin-top: 1.5rem;
+  padding: 0.8rem;
+  background-color: #B9DAF5;
+  color: #5B6672;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+#review-form button[type="submit"]:hover {
+  background-color: #9ec9f0;
+  transform: translateY(-1px);
+}
+
+#review-form button[type="submit"]:active {
+  transform: translateY(0);
+}
+/* ===== إضافة جديدة: رسالة خطأ لصفحة تفاصيل المكان ===== */
+#error-message {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f8d7da;
+    color: #721c24;
+    text-align: center;
+    border-radius: 4px;
 }

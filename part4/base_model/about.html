@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - HBnB</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================
+           1. Theme Color Palette & Variables
+           ========================================== */
+        :root {
+            --primary-blue: #B9DAF5;
+            --bg-cream: #EDE2D4;
+            --bg-light: #F7F7F5;
+            --border-muted: #C7C0B8;
+            --text-dark: #5B6672;
+            --white: #FFFFFF;
+            
+            --shadow-sm: 0 4px 12px rgba(91, 102, 114, 0.05);
+            --shadow-md: 0 12px 30px rgba(91, 102, 114, 0.08);
+            --shadow-lg: 0 20px 40px rgba(91, 102, 114, 0.12);
+            --transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* ==========================================
+           2. Global Reset & Base
+           ========================================== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ==========================================
+           3. Header & Glassmorphism Nav
+           ========================================== */
+        header {
+            background-color: rgba(237, 226, 212, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(199, 192, 184, 0.6);
+            position: sticky;
+            top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 3rem;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .logo {
+            height: 42px;
+            width: auto;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: scale(1.03);
+        }
+
+        #main-nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        #main-nav a {
+            color: var(--text-dark);
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            position: relative;
+            padding: 0.4rem 0;
+            transition: var(--transition);
+        }
+
+        #main-nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background-color: var(--text-dark);
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+
+        #main-nav a:hover::after,
+        #main-nav a.active::after {
+            width: 100%;
+        }
+
+        #main-nav .login-button {
+            background-color: var(--primary-blue);
+            color: var(--text-dark);
+            padding: 0.6rem 1.4rem;
+            border-radius: 30px;
+            box-shadow: var(--shadow-sm);
+            font-weight: 700;
+        }
+
+        #main-nav .login-button::after {
+            display: none;
+        }
+
+        #main-nav .login-button:hover {
+            background-color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .menu-toggle {
+            display: none;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background-color: var(--bg-cream);
+            border: 1px solid var(--border-muted);
+            cursor: pointer;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .menu-toggle span {
+            width: 18px;
+            height: 2px;
+            background-color: var(--text-dark);
+            border-radius: 2px;
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 1rem 1.5rem; }
+            .menu-toggle { display: flex; }
+            
+            #main-nav {
+                position: absolute;
+                top: calc(100% + 10px);
+                right: 1.5rem;
+                background-color: var(--bg-cream);
+                border: 1px solid var(--border-muted);
+                border-radius: 16px;
+                flex-direction: column;
+                width: 240px;
+                padding: 1.8rem 1.2rem;
+                gap: 1.2rem;
+                opacity: 0;
+                pointer-events: none;
+                transform: translateY(-15px);
+                box-shadow: var(--shadow-lg);
+                transition: var(--transition);
+            }
+
+            #main-nav.open {
+                opacity: 1;
+                pointer-events: auto;
+                transform: translateY(0);
+            }
+        }
+
+        /* ==========================================
+           4. About Us Main Content
+           ========================================== */
+        .about-page {
+            max-width: 1000px;
+            margin: 3.5rem auto 5rem;
+            padding: 0 1.5rem;
+            flex: 1;
+        }
+
+        .about-hero {
+            text-align: center;
+            max-width: 650px;
+            margin: 0 auto 3.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: var(--primary-blue);
+            color: var(--text-dark);
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 0.35rem 1rem;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 1rem;
+        }
+
+        .about-hero h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--text-dark);
+            margin-bottom: 0.8rem;
+            line-height: 1.2;
+        }
+
+        .about-hero p {
+            font-size: 1.15rem;
+            color: var(--text-dark);
+            opacity: 0.85;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+        }
+
+        .team-card {
+            background: var(--bg-cream);
+            border: 1px solid var(--border-muted);
+            border-radius: 20px;
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .team-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-blue);
+            background-color: var(--white);
+        }
+
+        .avatar-wrapper {
+            width: 90px;
+            height: 90px;
+            margin-bottom: 1.2rem;
+            background-color: var(--primary-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 16px rgba(185, 218, 245, 0.4);
+            transition: var(--transition);
+        }
+
+        .team-card:hover .avatar-wrapper {
+            transform: scale(1.08) rotate(4deg);
+        }
+
+        .avatar-placeholder {
+            font-size: 2.5rem;
+        }
+
+        .team-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.6rem;
+        }
+
+        .linkedin-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--text-dark);
+            font-size: 0.88rem;
+            font-weight: 600;
+            text-decoration: none;
+            background-color: rgba(185, 218, 245, 0.5);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            transition: var(--transition);
+        }
+
+        .linkedin-link:hover {
+            background-color: var(--primary-blue);
+            transform: translateY(-2px);
+        }
+
+        /* ==========================================
+           5. Footer
+           ========================================== */
+        footer {
+            background-color: var(--bg-cream);
+            border-top: 1px solid var(--border-muted);
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: auto;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo-container">
+            <img src="images/logo.png" alt="HBnB Logo" class="logo">
+        </a>
+        <button class="menu-toggle" aria-label="Toggle Navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav id="main-nav">
+            <a href="index.html">Home</a>
+            <a href="about.html" class="active">About</a>
+            <a href="login.html" class="login-button">Login</a>
+        </nav>
+    </header>
+
+    <main class="about-page">
+        <section class="about-hero">
+            <span class="badge">HBnB Team</span>
+            <h1>Project Developers</h1>
+            <p>Meet the talented team behind the development and design of this web platform.</p>
+        </section>
+
+        <section class="team-section">
+            <div class="team-grid">
+                <!-- Member 1 -->
+                <div class="team-card">
+                    <div class="avatar-wrapper">
+                        <div class="avatar-placeholder">👩‍💻</div>
+                    </div>
+                    <h3>Dhay aldhwayan </h3>
+                    <a href="https://www.linkedin.com/in/dhayaldhwayan?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank" class="linkedin-link">
+                        🔗 LinkedIn Profile
+                    </a>
+                </div>
+
+                <!-- Member 2 -->
+                <div class="team-card">
+                    <div class="avatar-wrapper">
+                        <div class="avatar-placeholder">👩‍💻</div>
+                    </div>
+                    <h3>Sarah Alkhubaizy</h3>
+                    <a href="https://www.linkedin.com/in/sarah-alkhubaizy-73700632a" target="_blank" class="linkedin-link">
+                        🔗 LinkedIn Profile
+                    </a>
+                </div>
+
+                <!-- Member 3 -->
+                <div class="team-card">
+                    <div class="avatar-wrapper">
+                        <div class="avatar-placeholder">👩‍💻</div>
+                    </div>
+                    <h3>Rahaf Alabdalh </h3>
+                    <a href="https://www.linkedin.com/in/rahafalabdalh " target="_blank" class="linkedin-link">
+                        🔗 LinkedIn Profile
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 HBnB. All rights reserved.</p>
+    </footer>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
