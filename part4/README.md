@@ -33,10 +33,16 @@ your backend runs elsewhere.
 
 ## Test accounts
 
-| Role  | Email               | Password  |
-|-------|----------------------|-----------|
-| Admin | testadmin@hbnb.com   | Admin1234 |
-| User  | testuser@hbnb.com    | User1234  |
+| Role  | Email                        |
+|-------|-------------------------------|
+| Admin | admin@hbnb.com                |
+| User  | sara.ahmed@example.com        |
+| User  | khalid.omar@example.com       |
+| User  | mohammed.ali@example.com      |
+| User  | fatima.hassan@example.com     |
+| User  | noura.saad@example.com        |
+| User  | testadmin@hbnb.com            |
+| User  | testuser@hbnb.com             |
 
 ## Notes
 
