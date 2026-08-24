@@ -126,7 +126,6 @@ async function registerUser(firstName, lastName, birthdate, email, password) {
             body: JSON.stringify({
                 first_name: firstName,
                 last_name: lastName,
-                birthdate: birthdate,
                 email: email,
                 password: password
             })
