@@ -8,7 +8,9 @@
  * All requests go to the Flask REST API defined by API_URL below.
  */
 
-const API_URL = 'http://127.0.0.1:5000/api/v1';
+const API_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    ? 'http://127.0.0.1:5000/api/v1'
+    : 'https://holbertonschool-hbnb-cgs0.onrender.com/api/v1';
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- Login form (present on login.html) ---
