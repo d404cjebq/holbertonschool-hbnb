@@ -165,12 +165,29 @@ function checkAuthentication() {
     const loginLink = document.getElementById('login-link');
 
     if (loginLink) {
-        loginLink.style.display = token ? 'none' : 'block';
+        if (!token) {
+            loginLink.style.display = 'block';
+            loginLink.textContent = 'Login';
+            loginLink.href = 'login.html';
+            loginLink.onclick = null;
+        } else {
+            loginLink.style.display = 'block';
+            loginLink.textContent = 'Logout';
+            loginLink.href = '#';
+            loginLink.onclick = (e) => {
+                e.preventDefault();
+                logout();
+            };
+        }
     }
 
     fetchPlaces(token);
 }
 
+function logout() {
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    window.location.href = 'index.html';
+}
 /** Fetches all places from the API and hands them to displayPlaces(). */
 async function fetchPlaces(token) {
     try {
@@ -559,4 +576,8 @@ function filterPlacesByRegion(region) {
         const matches = !allowedTitles || allowedTitles.includes(title);
         card.style.display = matches ? 'block' : 'none';
     });
+}
+function logout() {
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    window.location.href = 'index.html';
 }
