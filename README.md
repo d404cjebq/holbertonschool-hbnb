@@ -6,6 +6,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.10+-blue?logo=python&logoColor=white" alt="Python">
   <img src="https://img.shields.io/badge/Flask-RESTx-black?logo=flask&logoColor=white" alt="Flask">
+  <img src="https://img.shields.io/badge/HTML%2FCSS%2FJS-Frontend-orange?logo=javascript&logoColor=white" alt="Frontend">
   <img src="https://img.shields.io/badge/status-completed-brightgreen" alt="Status">
   <img src="https://img.shields.io/badge/license-MIT-green" alt="License">
 </p>
@@ -14,13 +15,15 @@
 
 ## 📖 About the Project
 
-**HBnB Evolution** is a multi-phase project that recreates the core of an Airbnb-style platform — from architectural design to a working REST API. It's built incrementally, with each phase adding a new layer of the system:
+**HBnB Evolution** is a multi-phase project that recreates the core of an Airbnb-style platform — from architectural design to a working REST API and a fully functional web client. It's built incrementally, with each phase adding a new layer of the system:
 
 | Phase | Focus | Status |
 |---|---|---|
 | Part 1 | UML design & technical documentation | ✅ Complete |
 | Part 2 | Business logic & REST API (Flask / flask-restx) | ✅ Complete |
 | Part 3 | Authentication, authorization & SQL persistence | ✅ Complete |
+| Part 4 | Simple Web Client (HTML/CSS/JS front-end) | ✅ Complete |
+
 ---
 
 ## 🏗️ Architecture
@@ -46,7 +49,9 @@ Database
 
 ---
 
-📁 Repository Structure
+## 📁 Repository Structure
+
+```
 holbertonschool-hbnb/
 ├── part1/          # UML diagrams & technical documentation
 │   └── README.md
@@ -55,7 +60,11 @@ holbertonschool-hbnb/
 ├── part3/          # Authentication, authorization & SQL persistence
 │   ├── sql/
 │   └── README.md
+├── part4/          # Simple web client (HTML/CSS/JS)
+│   └── base_model/
+│       └── screenshots/
 └── README.md        # You are here
+```
 
 ## 📦 Part 1 — Technical Documentation
 
@@ -104,7 +113,18 @@ Then open the interactive Swagger docs at:
 http://127.0.0.1:5000/api/v1/
 ```
 
+### Testing
+
+```bash
+cd part2
+python -m unittest tests.test_api -v
+```
+
+Manual cURL test cases are documented in `part2/curl_tests.md`, with results summarized in `part2/TESTING_REPORT.md`.
+
 ➡️ Full setup, testing, and API details in [`part2/README.md`](part2/README.md)
+
+---
 
 ## 🔐 Part 3 — Authentication, Authorization & Database Persistence
 
@@ -165,25 +185,95 @@ Swagger docs available at:
 ```
 http://127.0.0.1:5000/api/v1/
 ```
-## 🧪 Testing
 
-**Part 2:**
-```bash
-cd part2
-python -m unittest tests.test_api -v
-```
+### Testing
 
-**Part 3:**
 ```bash
 cd part3
 python -m unittest discover tests -v
 ```
 
-Manual cURL test cases for Part 2 are documented in `part2/curl_tests.md`, with results summarized in `part2/TESTING_REPORT.md`. Part 3 SQL scripts are located in `part3/sql/` and can be tested independently as shown above.
+Part 3 SQL scripts are located in `part3/sql/` and can be tested independently (see the Database Schema section above).
+
+---
+
+## 🖥️ Part 4 — Simple Web Client
+
+A responsive front-end built with plain **HTML5**, **CSS3**, and **vanilla JavaScript**, consuming the Part 3 REST API to deliver a full browsing and review experience — no framework, no build step.
+
+### What was built
+
+- A **home page** with a full-width hero banner and a dynamically rendered grid of places, each pulled live from `GET /api/v1/places/`.
+- **Client-side filtering**: a "Max Price" dropdown and clickable destination banners (Red Sea / AlUla) filter the already-rendered place cards instantly, with no extra API calls.
+- A **place details page** with an image gallery (clickable thumbnails swap the main image), host info, description, amenities, and the full list of reviews for that place.
+- A **reviews system** that shows the reviewer's real first and last name (instead of a raw user ID or "Anonymous") by joining review data with the associated user on the backend.
+- An **authenticated "Add a Review" flow**: logged-in users can rate a place (1–5) and leave a text review via `POST /api/v1/reviews/`; the section is hidden for visitors who aren't logged in.
+- **Login / Sign up pages**: login stores the JWT returned by `POST /api/v1/auth/login` in a cookie; the cookie is then attached as an `Authorization` header on every authenticated request (adding reviews, etc.).
+- A **responsive hamburger menu** for mobile viewports.
+- Graceful error handling: an invalid or deleted place ID shows a clear "This place could not be found" message instead of a blank page.
+
+### Pages
+
+| Page | Description |
+|---|---|
+| `index.html` | Landing page — hero banner, destination shortcuts, filterable list of all places |
+| `place.html` | Place details — image gallery, host info, amenities, and reviews |
+| `login.html` | Login form; stores the returned JWT in a cookie |
+| `register.html` | Sign-up form for creating a new account |
+| `add_review.html` | Authenticated-only form to submit a review for a place |
+| `about.html` | Static about page |
+
+### Screenshots
+
+<p align="center">
+  <img src="part4/base_model/screenshots/home.png" alt="Home page hero banner" width="800"><br>
+  <em>Home page with hero banner</em>
+</p>
+
+<p align="center">
+  <img src="part4/base_model/screenshots/featured-places.png" alt="Featured places section" width="800"><br>
+  <em>Featured places and list section</em>
+</p>
+
+<p align="center">
+  <img src="part4/base_model/screenshots/places-list.png" alt="List of places" width="800"><br>
+  <em>Filterable list of places</em>
+</p>
+
+<p align="center">
+  <img src="part4/base_model/screenshots/login.png" alt="Login form" width="500"><br>
+  <em>Login page</em>
+</p>
+
+<p align="center">
+  <img src="part4/base_model/screenshots/signup.png" alt="Sign up form" width="500"><br>
+  <em>Sign up page</em>
+</p>
+
+<p align="center">
+  <img src="part4/base_model/screenshots/mobile-menu.png" alt="Mobile hamburger menu" width="400"><br>
+  <em>Responsive mobile navigation menu</em>
+</p>
+
+### Quick Start
+
+```bash
+cd part4/base_model
+# Serve with any static file server, e.g.:
+python -m http.server 8000
+```
+
+Then open:
+```
+http://127.0.0.1:8000/index.html
+```
+
+> Make sure the Part 3 API is running at `http://127.0.0.1:5000` — the client points there automatically when accessed via `localhost` / `127.0.0.1`.
+
 ---
 
 ## 👥 Authors
 
-| Sarah Alkhubaizy | 
-| Dhay Aldhwayan | 
-| Rahaf Alabdalh | 
+| Sarah Alkhubaizy |
+| Dhay Aldhwayan |
+| Rahaf Alabdalh |
