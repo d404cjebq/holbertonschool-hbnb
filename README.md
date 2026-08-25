@@ -1,4 +1,3 @@
-<img width="1016" height="639" alt="Screenshot 2026-08-25 125048" src="https://github.com/user-attachments/assets/a80e1a32-e674-49b4-904b-f08bb4455631" />
 <p align="center">
   <h1 align="center">🏠 HBnB Evolution</h1>
   <p align="center">A simplified Airbnb clone — built as part of the Holberton School Higher-Level Programming curriculum</p>
