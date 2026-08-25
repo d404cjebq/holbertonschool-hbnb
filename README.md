@@ -1,3 +1,4 @@
+<img width="1016" height="639" alt="Screenshot 2026-08-25 125048" src="https://github.com/user-attachments/assets/a80e1a32-e674-49b4-904b-f08bb4455631" />
 <p align="center">
   <h1 align="center">🏠 HBnB Evolution</h1>
   <p align="center">A simplified Airbnb clone — built as part of the Holberton School Higher-Level Programming curriculum</p>
@@ -228,6 +229,7 @@ A responsive front-end built with plain **HTML5**, **CSS3**, and **vanilla JavaS
 <img width="1915" height="924" alt="Screenshot 2026-08-25 122118" src="https://github.com/user-attachments/assets/5aad12d2-c6e3-49b3-8132-42453a6777f6" />
 <img width="1013" height="857" alt="Screenshot 2026-08-25 125100" src="https://github.com/user-attachments/assets/f66d0f23-03dd-41ff-8f6b-6739afe47d1b" />
 <img width="462" height="341" alt="Screenshot 2026-08-25 125114" src="https://github.com/user-attachments/assets/aaca7b2b-a7d2-425c-8e9a-de99070ecd92" />
+<img width="1016" height="639" alt="Screenshot 2026-08-25 125048" src="https://github.com/user-attachments/assets/8dff9252-a203-4771-8183-6b7bbe98ac59" />
 
 ### Quick Start
 
