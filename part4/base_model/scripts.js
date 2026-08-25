@@ -397,18 +397,19 @@ function displayPlaceDetails(place, reviews) {
     if (reviewsHeading) reviewsSection.appendChild(reviewsHeading);
 
     if (reviews && reviews.length > 0) {
-        reviews.forEach((review) => {
-            const reviewCard = document.createElement('article');
-            reviewCard.className = 'review-card';
-            // Backend doesn't return a reviewer name on this endpoint yet,
-            // so we fall back to user_id until that's added.
-            reviewCard.innerHTML = `
-                <h3 class="review-user">${review.user_id || 'Anonymous'}</h3>
-                <p class="review-rating">Rating: ${review.rating}/5</p>
-                <p class="review-comment">${review.text}</p>
-            `;
-            reviewsSection.appendChild(reviewCard);
-        });
+    reviews.forEach(function (review) {
+        const reviewCard = document.createElement('article');
+        reviewCard.className = 'review-card';
+        const reviewerName = review.user_first_name
+            ? `${review.user_first_name} ${review.user_last_name}`
+            : 'Anonymous';
+        reviewCard.innerHTML = `
+        <h3 class="review-user">${reviewerName}</h3>
+        <p class="review-rating">Rating: ${review.rating}/5</p>
+        <p class="review-comment">${review.text}</p>
+    `;
+        reviewsSection.appendChild(reviewCard);
+    });
     } else {
         const noReviews = document.createElement('p');
         noReviews.textContent = 'No reviews yet.';

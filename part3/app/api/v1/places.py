@@ -154,7 +154,10 @@ class PlaceReviewList(Resource):
             {
                 'id': r.id,
                 'text': r.text,
-                'rating': r.rating
+                'rating': r.rating,
+                'user_id': r.user_id,
+                'user_first_name': r.user.first_name if r.user else None,
+                'user_last_name': r.user.last_name if r.user else None
             }
             for r in place.reviews
         ], 200

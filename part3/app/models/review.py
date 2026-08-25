@@ -11,6 +11,7 @@ class Review(BaseModel):
     place_id = db.Column(db.String(36), db.ForeignKey('places.id'), nullable=False)
     user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
 
+
     @validates('text')
     def validate_text(self, key, value):
         if not value:
