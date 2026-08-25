@@ -226,14 +226,7 @@ A responsive front-end built with plain **HTML5**, **CSS3**, and **vanilla JavaS
 ### 
 <img width="1911" height="919" alt="Screenshot 2026-08-25 122103" src="https://github.com/user-attachments/assets/7526f0dc-4532-4706-9771-0ea4598012aa" /><img width="1916" height="919" alt="Screenshot 2026-08-25 122132" src="https://github.com/user-attachments/assets/9dd9d2bc-c9f0-4544-bfc0-166702df89f9" />
 <img width="1915" height="924" alt="Screenshot 2026-08-25 122118" src="https://github.com/user-attachments/assets/5aad12d2-c6e3-49b3-8132-42453a6777f6" />
-
-<img width="1915" height="924" alt="Screenshot 2026-08-25 122118" src="https://github.com/user-attachments/assets/c60139dd-2714-484b-8a2a-15106507b043" />
-<img width="1911" height="919" alt="Screenshot 2026-08-25 122103" src="https://github.com/user-attachments/assets/7f86a203-a30d-478a-a06b-cf11866b3b3b" />
 <img width="1916" height="919" alt="Screenshot 2026-08-25 122132" src="https://github.com/user-attachments/assets/0a67e2c1-e905-4b20-ac6e-4c5d05f90bab" />
-<img width="1911" height="919" alt="Screenshot 2026-08-25 122103" src="https://github.com/user-attachments/assets/4ae0ca75-1f15-4905-83b4-9a0faccb790e" />
-<img width="1916" height="919" alt="Screenshot 2026-08-25 122132" src="https://github.com/user-attachments/assets/e8a20661-858e-41bb-818a-9e96fce0df56" />
-<img width="1915" height="924" alt="Screenshot 2026-08-25 122118" src="https://github.com/user-attachments/assets/fa9ad817-fea3-4387-8c77-a7bb6b9547c0" />
-<img width="1016" height="639" alt="Screenshot 2026-08-25 125048" src="https://github.com/user-attachments/assets/331fe3c5-cf92-4a8a-8238-6d7f0b2a1cb4" />
 <img width="1013" height="857" alt="Screenshot 2026-08-25 125100" src="https://github.com/user-attachments/assets/f66d0f23-03dd-41ff-8f6b-6739afe47d1b" />
 <img width="462" height="341" alt="Screenshot 2026-08-25 125114" src="https://github.com/user-attachments/assets/aaca7b2b-a7d2-425c-8e9a-de99070ecd92" />
 
